@@ -18,9 +18,16 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
 
+        # use the code below if you want to run the game in a window.
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height)
         )
+
+        # use the code below if you want to run the game in fullscreen mode.
+        # self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
+
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
