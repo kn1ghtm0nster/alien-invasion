@@ -2,9 +2,9 @@ import sys
 import pygame
 from pygame.event import Event
 
-from settings import Settings
-from ship import Ship
-from bullet import Bullet
+from .settings import Settings
+from .ship import Ship
+from .bullet import Bullet
 
 
 class AlienInvasion:
