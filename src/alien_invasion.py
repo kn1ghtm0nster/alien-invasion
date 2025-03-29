@@ -150,6 +150,23 @@ class AlienInvasion:
                 # Create an alien and place it in a row.
                 self._create_alien(alien_number, row_number)
 
+    def _check_fleet_edges(self) -> None:
+        """
+        Respond appropriately if any aliens have reached an edge.
+        """
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self) -> None:
+        """
+        Drop the entire fleet and change the fllet's direction.
+        """
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+
     def _create_alien(self, alien_number: int, row_number: int) -> None:
         """
         Create an alien and place it in the row.
@@ -161,6 +178,13 @@ class AlienInvasion:
         alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
+    def _update_aliens(self) -> None:
+        """
+        Update the positions of all aliens in the fleet.
+        """
+        self._check_fleet_edges()
+        self.aliens.update()
+
     def run_game(self) -> None:
         """
         Start the main loop for the game.
@@ -170,6 +194,7 @@ class AlienInvasion:
 
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
 
             # Redraw the screen during each pass through the
             # loop.
