@@ -35,7 +35,7 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         # Create an instance to store game stats.
-        self.status = GameStats(self)
+        self.stats = GameStats(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -135,19 +135,23 @@ class AlienInvasion:
         """
         Respond to the ship being hit by an alien.
         """
-        # Decrement ships_left
-        self.status.ships_left -= 1
+        if self.stats.ships_left > 0:
 
-        # Get rid of any remaining aliens and bullets.
-        self.aliens.empty()
-        self.bullets.empty()
+            # Decrement ships_left
+            self.stats.ships_left -= 1
 
-        # Create a new fleet and center the ship.
-        self._create_fleet()
-        self.ship.center_ship()
+            # Get rid of any remaining aliens and bullets.
+            self.aliens.empty()
+            self.bullets.empty()
 
-        # Pause the game.
-        sleep(0.5)
+            # Create a new fleet and center the ship.
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Pause the game.
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
 
     def _update_screen(self) -> None:
         """
@@ -249,9 +253,10 @@ class AlienInvasion:
         while True:
             self._check_events()
 
-            self.ship.update()
-            self._update_bullets()
-            self._update_aliens()
+            if self.stats.game_active:
+                self.ship.update()
+                self._update_bullets()
+                self._update_aliens()
 
             # Redraw the screen during each pass through the
             # loop.
