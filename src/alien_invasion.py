@@ -10,7 +10,7 @@ from .alien import Alien
 
 class AlienInvasion:
     """
-    Overall class to maange game assets and behavior.
+    Overall class to manage game assets and behavior.
     """
 
     def __init__(self):
@@ -115,6 +115,11 @@ class AlienInvasion:
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True
         )
+
+        if not self.aliens:
+            # Destroy existing bullets and create a new fleet.
+            self.bullets.empty()
+            self._create_fleet()
 
     def _update_screen(self) -> None:
         """
